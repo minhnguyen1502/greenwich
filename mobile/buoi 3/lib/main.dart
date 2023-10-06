@@ -46,9 +46,39 @@ class _MyHomeState extends State<MyHome> {
           );
         });
   }
+  void _confirm(index){
+    showDialog(
+        context: context,
+        builder: (BuildContext context){
+          // TextEditingController ctl = TextEditingController();
+          String newTodo ='';
+          return AlertDialog(
+            // Set the title of the dialog box
+            title: Text('Confirm delete'),
+
+            actions: <Widget>[
+              TextButton(
+                  onPressed: (){
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Cancle')),
+              TextButton(
+                  onPressed: (){
+                    setState(() {
+                      _todos.removeAt(index);
+                      // _inputText = ctl.text;
+                    });
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Save'))
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
-
+    bool isDone = false;
     return Scaffold(
       appBar: AppBar(title: Text('to do'),),
       body: ListView.builder(
@@ -56,11 +86,13 @@ class _MyHomeState extends State<MyHome> {
           itemBuilder: (context, index){
           final todo = _todos[index];
           return ListTile(
-                  title: Text(todo),
+                  title: Text(todo,
+              style: TextStyle(
+                decoration: _todos(index).isDone ? TextDecoration.lineThrough : TextDecoration
+              ),
+                  )
                   onTap: (){
-                    setState(() {
-                      _todos.removeAt(index);
-                    });
+
     },
     );
     }
